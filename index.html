@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Medical Logistics Training Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E7DFC7;
+    --paper-hi:#F1EAD4;
+    --paper-shadow:#cfc4a2;
+    --cover:#33402E;
+    --cover-dark:#232C1F;
+    --ink:#241F14;
+    --ink-soft:#5B5644;
+    --brass:#A9812F;
+    --brass-dim:#8a6d33;
+    --stamp:#A2372B;
+    --stamp-dark:#7E2A21;
+    --line:#c9bd97;
+    --ok-green:#3E5C34;
+    --radius:4px;
+    --max:640px;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top, #f5efdb 0%, var(--paper) 55%, var(--paper-shadow) 100%);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', -apple-system, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding-bottom:env(safe-area-inset-bottom, 0);
+  }
+
+  a{color:inherit;}
+
+  /* ---------- Cover ---------- */
+  .cover{
+    background:
+      linear-gradient(180deg, var(--cover) 0%, var(--cover-dark) 100%);
+    color:#EFE9D3;
+    padding:clamp(28px,8vw,48px) clamp(18px,6vw,32px) clamp(34px,9vw,52px);
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--brass);
+  }
+  .cover::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:1px solid rgba(239,233,211,0.18);
+    pointer-events:none;
+  }
+  .cover .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:.22em;
+    font-size:clamp(10px,2.6vw,12px);
+    color:#C9BE93;
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .cover .eyebrow::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:rgba(201,190,147,0.4);
+  }
+  .cover h1{
+    font-family:'Special Elite', 'IBM Plex Mono', monospace;
+    font-weight:400;
+    font-size:clamp(28px,8vw,44px);
+    line-height:1.08;
+    margin:16px 0 10px;
+    letter-spacing:.01em;
+  }
+  .cover p.sub{
+    margin:0;
+    max-width:46ch;
+    color:#C9BE93;
+    font-size:clamp(13px,3.4vw,15px);
+    line-height:1.55;
+  }
+  .cover .doc-code{
+    margin-top:22px;
+    display:inline-flex;
+    gap:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:clamp(10px,2.8vw,11px);
+    color:#8FA07C;
+    border:1px solid rgba(143,160,124,0.4);
+    padding:8px 12px;
+    border-radius:2px;
+    letter-spacing:.04em;
+  }
+
+  /* ---------- Manifest ---------- */
+  main.manifest{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:clamp(14px,4vw,22px) clamp(14px,4vw,22px) 60px;
+  }
+
+  .unit{
+    margin-top:clamp(22px,6vw,30px);
+  }
+  .unit-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .unit-head .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:clamp(11px,3vw,12px);
+    letter-spacing:.14em;
+    color:var(--paper-hi);
+    background:var(--cover);
+    padding:4px 9px;
+    border-radius:2px;
+  }
+  .unit-head .rule{
+    flex:1;
+    height:1px;
+    background:repeating-linear-gradient(90deg, var(--brass) 0 6px, transparent 6px 10px);
+    opacity:.8;
+  }
+
+  .lesson{
+    border:1px solid var(--line);
+    background:var(--paper-hi);
+    border-radius:var(--radius);
+    margin-bottom:10px;
+    box-shadow:0 1px 0 rgba(36,31,20,0.04);
+    overflow:hidden;
+  }
+
+  .lesson-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 14px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    font-family:inherit;
+    color:var(--ink);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .lesson-row .code{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:clamp(13px,3.6vw,15px);
+    color:var(--stamp);
+    min-width:2.6em;
+  }
+  .lesson-row .names{
+    flex:1;
+    min-width:0;
+  }
+  .lesson-row .name{
+    font-weight:600;
+    font-size:clamp(14.5px,4vw,16px);
+    display:block;
+  }
+  .lesson-row .note{
+    font-size:clamp(11px,3vw,12px);
+    color:var(--ink-soft);
+    display:block;
+    margin-top:2px;
+  }
+  .lesson-row .chevron{
+    width:22px;
+    height:22px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--brass-dim);
+    transition:transform .35s cubic-bezier(.65,0,.35,1);
+  }
+  .lesson.open .chevron{ transform:rotate(180deg); color:var(--stamp); }
+  .chevron svg{ width:14px; height:14px; }
+
+  .lesson-panel{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .45s cubic-bezier(.65,0,.35,1);
+  }
+  .lesson.open .lesson-panel{ grid-template-rows:1fr; }
+  .lesson-panel-inner{ overflow:hidden; min-height:0; }
+
+  .panel-content{
+    position:relative;
+    padding:2px 14px 16px;
+    border-top:1px dashed var(--line);
+  }
+
+  /* Stamp signature element */
+  .stamp-mark{
+    position:absolute;
+    top:10px;
+    right:14px;
+    width:64px;
+    height:64px;
+    border:2.5px solid var(--stamp);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--stamp);
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:700;
+    font-size:8.5px;
+    letter-spacing:.05em;
+    text-align:center;
+    line-height:1.2;
+    transform:scale(2.2) rotate(-18deg);
+    opacity:0;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+  .stamp-mark::before{
+    content:"";
+    position:absolute; inset:5px;
+    border:1px solid var(--stamp);
+    border-radius:50%;
+  }
+  .lesson.open .stamp-mark{
+    animation:stampHit .38s cubic-bezier(.2,1.4,.4,1) .28s forwards;
+  }
+  @keyframes stampHit{
+    0%{ transform:scale(2.2) rotate(-18deg); opacity:0; }
+    60%{ transform:scale(0.92) rotate(-10deg); opacity:.9; }
+    100%{ transform:scale(1) rotate(-10deg); opacity:.85; }
+  }
+
+  .pdf-frame-wrap{
+    margin-top:14px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:2px;
+    overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(36,31,20,0.03);
+  }
+  .pdf-frame-wrap iframe{
+    display:block;
+    width:100%;
+    height:min(70vh, 520px);
+    border:none;
+  }
+
+  .placeholder{
+    height:min(70vh,520px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.05em;
+  }
+
+  .actions{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+    flex-wrap:wrap;
+  }
+  .actions a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.03em;
+    text-decoration:none;
+    padding:9px 13px;
+    border-radius:2px;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:background .2s ease, color .2s ease;
+  }
+  .actions a.primary{
+    background:var(--ink);
+    color:var(--paper-hi);
+  }
+  .actions a:active{ transform:translateY(1px); }
+
+  footer{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:10px clamp(14px,4vw,22px) 40px;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.04em;
+    text-align:center;
+  }
+
+  @media (min-width:720px){
+    .lesson-row .name{ font-size:17px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .lesson-panel, .chevron{ transition:none !important; }
+    .lesson.open .stamp-mark{ animation:none; opacity:.85; transform:scale(1) rotate(-10deg); }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="eyebrow">AIS &middot; DMLSS &middot; MEDICAL LOGISTICS</div>
+  <h1>Training Manual</h1>
+  <p class="sub">Tap a lesson to unfold its material. Everything scales to fit — read it in the truck, at the desk, or on the floor.</p>
+  <div class="doc-code">UNITS 02&ndash;05 &nbsp;|&nbsp; 8 LESSONS ON FILE</div>
+</header>
+
+<main class="manifest" id="manifest"></main>
+
+<footer>FIELD REFERENCE COPY &mdash; TAP TO OPEN, TAP TO CLOSE</footer>
+
+<script>
+  const units = [
+    {
+      tag: "UNIT 02",
+      lessons: [
+        { code: "2.1", name: "Lesson 2.1", file: "lessons/Lesson_2_1.pdf" },
+        { code: "2.2", name: "Lesson 2.2", file: "lessons/Lesson_2_2.pdf" },
+        { code: "2.3", name: "Lesson 2.3", file: "lessons/Lesson_2_3.pdf" }
+      ]
+    },
+    {
+      tag: "UNIT 03",
+      lessons: [
+        { code: "3.1", name: "Lesson 3.1", note: "End of Unit 3", file: "lessons/Lesson_3_1_end_of_Unit_3.pdf" }
+      ]
+    },
+    {
+      tag: "UNIT 04",
+      lessons: [
+        { code: "4.1", name: "Lesson 4.1", note: "End of Unit 4", file: "lessons/Lesson_4_1_end_of_Unit_4.pdf" }
+      ]
+    },
+    {
+      tag: "UNIT 05",
+      lessons: [
+        { code: "5.1", name: "Lesson 5.1", file: "lessons/Lesson_5_1.pdf" },
+        { code: "5.2", name: "Lesson 5.2", file: "lessons/Lesson_5_2.pdf" },
+        { code: "5.3", name: "Lesson 5.3", file: "lessons/lesson_5_3.pdf" }
+      ]
+    }
+  ];
+
+  const chevronSvg = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  const manifest = document.getElementById('manifest');
+
+  units.forEach(unit => {
+    const section = document.createElement('section');
+    section.className = 'unit';
+
+    const head = document.createElement('div');
+    head.className = 'unit-head';
+    head.innerHTML = `<span class="tag">${unit.tag}</span><span class="rule"></span>`;
+    section.appendChild(head);
+
+    unit.lessons.forEach((lesson, idx) => {
+      const item = document.createElement('div');
+      item.className = 'lesson';
+
+      const uid = `panel-${unit.tag.replace(/\s+/g,'')}-${idx}`;
+
+      item.innerHTML = `
+        <button class="lesson-row" aria-expanded="false" aria-controls="${uid}">
+          <span class="code">${lesson.code}</span>
+          <span class="names">
+            <span class="name">${lesson.name}</span>
+            ${lesson.note ? `<span class="note">${lesson.note}</span>` : ``}
+          </span>
+          <span class="chevron">${chevronSvg}</span>
+        </button>
+        <div class="lesson-panel">
+          <div class="lesson-panel-inner">
+            <div class="panel-content">
+              <div class="stamp-mark">OPENED<br>ON FILE</div>
+              <div class="pdf-frame-wrap">
+                <div class="placeholder">LOADING DOCUMENT&hellip;</div>
+              </div>
+              <div class="actions">
+                <a class="primary" href="${lesson.file}" target="_blank" rel="noopener">Open full screen</a>
+                <a href="${lesson.file}" download>Download PDF</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const row = item.querySelector('.lesson-row');
+      const wrap = item.querySelector('.pdf-frame-wrap');
+      let loaded = false;
+
+      row.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+
+        if(!isOpen && !loaded){
+          wrap.innerHTML = `<iframe src="${lesson.file}" title="${lesson.name}" loading="lazy"></iframe>`;
+          loaded = true;
+        }
+
+        item.classList.toggle('open');
+        row.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      section.appendChild(item);
+    });
+
+    manifest.appendChild(section);
+  });
+</script>
+
+</body>
+</html>
